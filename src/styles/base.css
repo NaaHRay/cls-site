@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./fonts.css";
+@import "./components.css";
+
+@layer base {
+  html {
+    overflow-x: clip; /* never "hidden": it would break the sticky scroll stages */
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-antic-slab);
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Nested themed regions (hero, footer, burgundy fields) paint their own ground and ink. */
+  [data-theme] {
+    color: var(--ink);
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+    hyphens: none;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--ground-feature);
+    color: var(--ink-on-feature);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  a {
+    color: var(--leaf-text);
+    text-decoration: underline;
+  }
+}

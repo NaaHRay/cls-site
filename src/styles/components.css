@@ -1,0 +1,159 @@
+/* Shared interaction styles. Values come from the design system's Motion and Color sections. */
+
+:root {
+  --dur-instant: 100ms;
+  --dur-quick: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 600ms;
+  --dur-page: 900ms;
+  --ease-page: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-leave: cubic-bezier(0.4, 0, 1, 1);
+  --ease-glow: cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+/* Per-theme choices, set on every themed element so nested regions get their own:
+   the filled button is burgundy on light grounds and white on black or burgundy;
+   hover depth is a rose glow on dark and a shadow on light. */
+:root, [data-theme="dark"] {
+  --btn-fill: var(--action-inverse);
+  --btn-text: var(--on-action-inverse);
+  --hover-depth: var(--glow-rose);
+  --wordmark-dark: block;
+  --wordmark-light: none;
+}
+[data-theme="light"] {
+  --btn-fill: var(--action);
+  --btn-text: var(--on-action);
+  --hover-depth: var(--shadow-lift);
+  --wordmark-dark: none;
+  --wordmark-light: block;
+}
+/* The diary's dim room: a black veil at the design system's veil strengths (heavier on the dark
+   room, lighter on the ivory one), softly blurred, with a circle of light cut out where the cursor is. */
+:root, [data-theme="dark"] { --diary-dim: var(--veil-mid); --diary-blur: 3px; }
+[data-theme="light"] { --diary-dim: var(--veil-light); --diary-blur: 2px; }
+.diary-veil {
+  --x: 50%;
+  --y: 48%;
+  --r: 30vmin;
+  background: rgb(0 0 0 / var(--diary-dim));
+  -webkit-backdrop-filter: blur(var(--diary-blur));
+  backdrop-filter: blur(var(--diary-blur));
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), transparent 0%, transparent 40%, #000 100%);
+  mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), transparent 0%, transparent 40%, #000 100%);
+}
+/* While the book rises the lens already blurs the whole scene; a second blur pass only costs frames. */
+[data-entering] > .diary-veil { -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* The diary's top bar slides down once the book fills the room; its one-liner rises in per beat. */
+.diary-topbar {
+  transform: translateY(-100%);
+  transition: transform var(--dur-slow) var(--ease-page);
+}
+.diary-topbar[data-visible="true"] { transform: none; }
+.diary-line-in { animation: diary-line-in var(--dur-slow) var(--ease-page); }
+@keyframes diary-line-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diary-topbar { transition: none; }
+  .diary-line-in { animation: none; }
+}
+
+/* The diary's own cursor replaces the native one over the pages only, never over controls. */
+.diary-cursor-on [data-paper] { cursor: none; }
+.diary-cursor-on [data-paper] :is(a, button) { cursor: pointer; }
+.diary-cursor-on [data-cover] { cursor: pointer; }
+
+/* The diary without its scroll timeline (phones, reduced motion, before GSAP): the cover lies open. */
+[data-diary-static] .diary-leaf[data-leaf="0"] { transform: rotateY(-180deg); }
+
+.wordmark-dark { display: var(--wordmark-dark); }
+.wordmark-light { display: var(--wordmark-light); }
+
+@layer components {
+  /* Hover depth (rose glow on dark, shadow on light), also on keyboard focus.
+     The lift and tilt themselves are Motion's (src/lib/useTilt.ts). */
+  .lift {
+    transition: box-shadow var(--dur-base) var(--ease-glow);
+  }
+  .lift:hover,
+  .lift:focus-within {
+    box-shadow: var(--hover-depth);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-none);
+    font-family: var(--font-antic-slab);
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    will-change: transform;
+    /* Movement (lift, magnetic pull, press) is Motion's; CSS only fades depth and colour. */
+    transition:
+      box-shadow var(--dur-base) var(--ease-glow),
+      background-color var(--dur-instant) linear,
+      color var(--dur-instant) linear;
+  }
+  .btn:hover,
+  .btn:focus-visible {
+    box-shadow: var(--hover-depth);
+  }
+  .btn:focus-visible {
+    outline-offset: 4px;
+  }
+  .btn:active {
+    background: var(--ground-deep);
+    color: var(--ink-on-feature);
+  }
+  .btn[aria-disabled="true"],
+  .btn:disabled {
+    opacity: var(--disabled);
+    cursor: default;
+    pointer-events: none;
+  }
+  .btn-filled {
+    background: var(--btn-fill);
+    color: var(--btn-text);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+  .btn svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+
+/* The cover's typing caret: blinks while "CLS" is being typed, then the component removes it. */
+.diary-caret { animation: diary-caret 0.9s steps(1) infinite; }
+@keyframes diary-caret { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .diary-caret { animation: none; } }
+
+/* The card tucked into the spine reaches past its page, so it only shows while the diary's timeline
+   has it on screen (beat 3). Without the timeline (phones, reduced motion) it stays out of sight. */
+.diary-spine-card { transition: none; }
+[data-diary-static] .diary-spine-card { opacity: 0; }
+
+/* The phone's small flat book: stickers, the spine card and the bookmark tabs would be cut off at its edges
+   (and the tab links are in the text below), so they stay out of it. */
+.diary-phone-book .diary-sticker,
+.diary-phone-book .diary-spine-card,
+.diary-phone-book [data-beat="3"] { display: none; }

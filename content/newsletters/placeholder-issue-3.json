@@ -1,0 +1,16 @@
+{
+  "title": "[Issue title 3]",
+  "issue": "[3]",
+  "date": "",
+  "cover": "",
+  "summary": "[one line about this issue]",
+  "intro": "[a few sentences introducing this issue of the club newsletter]",
+  "colourway": "ivory",
+  "editors": "[editors' names]",
+  "articles": [
+    { "heading": "[First article]", "author": "[author]", "body": "[the article's text]\n\n[a second paragraph]" },
+    { "heading": "[Second article]", "author": "[author]", "body": "[the article's text]" },
+    { "heading": "[Third article]", "author": "[author]", "body": "[the article's text]" }
+  ],
+  "pdf": ""
+}

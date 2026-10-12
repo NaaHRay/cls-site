@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# The app is a single-page app; files that exist (/admin/, /landing-pages/, /uploads/) are served first.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

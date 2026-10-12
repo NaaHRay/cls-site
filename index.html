@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crescent Literary Society</title>
+    <meta name="description" content="Crescent Literary Society, founded 2006. With Inclusion comes Strength." />
+    <!-- Theme before first paint: stored choice, else the OS preference. Keep in sync with src/lib/theme.ts. -->
+    <script>
+      try {
+        var t = localStorage.getItem("cls-theme");
+        if (t !== "dark" && t !== "light") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Handlee&family=Laila:wght@300;400;500;600;700&family=Antic+Slab&family=Caveat:wght@400..700&family=Tillana:wght@400;500;600;700;800&family=Parisienne&family=Italianno&family=Tangerine:wght@400;700&family=Playfair+Display:wght@700&display=swap" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

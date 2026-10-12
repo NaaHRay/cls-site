@@ -1,0 +1,6 @@
+/* Finesse v2.0 by Hoang Le, Republish (Behalf Studio). Self-hosted; loaded on first use. */
+@font-face { font-family: "Finesse"; src: url("/fonts/Finesse-Roman.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Finesse"; src: url("/fonts/Finesse-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Finesse Oblique"; src: url("/fonts/Finesse-Oblique.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Finesse Flair"; src: url("/fonts/Finesse-Flair.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Finesse Future"; src: url("/fonts/Finesse-Future.woff2") format("woff2"); font-display: swap; }

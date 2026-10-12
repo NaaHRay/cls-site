@@ -1,0 +1,358 @@
+/* Crescent Literary Society — generated from design/tokens.json by scripts/build-tokens.mjs. Do not edit. */
+
+/* Raw source colours: never change with the theme. */
+:root {
+  --black: #000000;
+  --charcoal: #5D5956;
+  --stone: #99948E;
+  --maroon-deep: #5F0E0D;
+  --ivory: #F2EFE6;
+  --maroon: #801F2C;
+  --white: #FFFFFF;
+  --ink-black: #111111;
+  --rose-bright: #FF1400;
+  --rose-warm: #FF3B1F;
+  --leaf-bright: #3257FF;
+  --leaf-lift: #4C6CFF;
+  --leaf-navy: #1C2B8F;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 192px;
+  --gutter: 24px;
+  --measure: 36rem;
+  --container-text: 36rem;
+  --container-wide: 75rem;
+  --container-max: 90rem;
+  --z-base: 0;
+  --z-video: 1;
+  --z-veil: 5;
+  --z-overlay: 10;
+  --z-nav: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+  --veil-light: 0.25;
+  --veil-mid: 0.55;
+  --veil-heavy: 0.8;
+  --disabled: 0.4;
+}
+
+/* Semantic tokens. "dark" is the default; a nested data-theme re-themes its subtree. */
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #000000;
+  --ground-raised: #0c0c0b;
+  --ground-inset: #070606;
+  --ground-feature: #801F2C;
+  --ground-deep: #5F0E0D;
+  --ink: #F2EFE6;
+  --ink-muted: #99948E;
+  --ink-faint: #5D5956;
+  --ink-on-feature: #F2EFE6;
+  --line: #33312f;
+  --line-strong: #99948E;
+  --line-feature: #9c535a;
+  --rose: #FF1400;
+  --rose-text: #FF1400;
+  --on-rose: #000000;
+  --leaf: #3257FF;
+  --leaf-text: #4C6CFF;
+  --on-leaf: #FFFFFF;
+  --action: #801F2C;
+  --on-action: #F2EFE6;
+  --action-inverse: #FFFFFF;
+  --on-action-inverse: #801F2C;
+  --focus: #FFFFFF;
+  --shadow-rest: 0 1px 0 rgba(242,239,230,0.04), 0 8px 24px rgba(0,0,0,0.6);
+  --shadow-lift: 0 12px 32px rgba(0,0,0,0.7);
+  --glow-rose: 0 0 40px rgba(255,20,0,0.30);
+  --glow-leaf: 0 0 40px rgba(50,87,255,0.32);
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --ground: #F2EFE6;
+  --ground-raised: #FFFFFF;
+  --ground-inset: #e0ddd4;
+  --ground-feature: #801F2C;
+  --ground-deep: #5F0E0D;
+  --ink: #111111;
+  --ink-muted: #5D5956;
+  --ink-faint: #99948E;
+  --ink-on-feature: #F2EFE6;
+  --line: #cac6be;
+  --line-strong: #5D5956;
+  --line-feature: #9c535a;
+  --rose: #FF3B1F;
+  --rose-text: #801F2C;
+  --on-rose: #111111;
+  --leaf: #1C2B8F;
+  --leaf-text: #1C2B8F;
+  --on-leaf: #FFFFFF;
+  --action: #801F2C;
+  --on-action: #F2EFE6;
+  --action-inverse: #FFFFFF;
+  --on-action-inverse: #801F2C;
+  --focus: #111111;
+  --shadow-rest: 0 1px 2px rgba(17,17,17,0.08), 0 8px 24px rgba(17,17,17,0.08);
+  --shadow-lift: 0 2px 4px rgba(17,17,17,0.10), 0 16px 40px rgba(17,17,17,0.14);
+  --glow-rose: 0 8px 28px rgba(255,59,31,0.28);
+  --glow-leaf: 0 8px 28px rgba(28,43,143,0.25);
+}
+
+/* Tailwind theme: only design-system values exist; the default palette and scales are removed. */
+@theme static {
+  --color-*: initial;
+  --spacing-*: initial;
+  --radius-*: initial;
+  --breakpoint-*: initial;
+  --container-*: initial;
+  --font-*: initial;
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1100px;
+  --breakpoint-xl: 1440px;
+  --container-text: 36rem;
+  --container-wide: 75rem;
+  --container-max: 90rem;
+  --font-handlee: "Handlee", "Segoe Print", "Bradley Hand", cursive;
+  --font-laila: "Laila", Georgia, "Noto Serif Devanagari", serif;
+  --font-antic-slab: "Antic Slab", Rockwell, "Courier New", serif;
+  --font-finesse: "Finesse", Georgia, serif;
+  --font-finesse-oblique: "Finesse Oblique", "Finesse", Georgia, serif;
+  --font-finesse-flair: "Finesse Flair", "Finesse", Georgia, serif;
+  --font-finesse-future: "Finesse Future", "Finesse", Georgia, serif;
+  --font-caveat: "Caveat", "Segoe Print", cursive;
+  --font-tillana: "Tillana", "Noto Sans Devanagari", sans-serif;
+  --font-parisienne: "Parisienne", "Snell Roundhand", cursive;
+  --font-italianno: "Italianno", "Snell Roundhand", cursive;
+}
+@theme inline {
+  --spacing-0: 0px; /* left-0, inset-0, gap-0 … need a zero step once the default scale is gone */
+  --color-black: var(--black);
+  --color-charcoal: var(--charcoal);
+  --color-stone: var(--stone);
+  --color-maroon-deep: var(--maroon-deep);
+  --color-ivory: var(--ivory);
+  --color-maroon: var(--maroon);
+  --color-white: var(--white);
+  --color-ink-black: var(--ink-black);
+  --color-rose-bright: var(--rose-bright);
+  --color-rose-warm: var(--rose-warm);
+  --color-leaf-bright: var(--leaf-bright);
+  --color-leaf-lift: var(--leaf-lift);
+  --color-leaf-navy: var(--leaf-navy);
+  --color-ground: var(--ground);
+  --color-ground-raised: var(--ground-raised);
+  --color-ground-inset: var(--ground-inset);
+  --color-ground-feature: var(--ground-feature);
+  --color-ground-deep: var(--ground-deep);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-on-feature: var(--ink-on-feature);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-line-feature: var(--line-feature);
+  --color-rose: var(--rose);
+  --color-rose-text: var(--rose-text);
+  --color-on-rose: var(--on-rose);
+  --color-leaf: var(--leaf);
+  --color-leaf-text: var(--leaf-text);
+  --color-on-leaf: var(--on-leaf);
+  --color-action: var(--action);
+  --color-on-action: var(--on-action);
+  --color-action-inverse: var(--action-inverse);
+  --color-on-action-inverse: var(--on-action-inverse);
+  --color-focus: var(--focus);
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+  --spacing-9: var(--space-9);
+  --spacing-10: var(--space-10);
+  --spacing-11: var(--space-11);
+  --spacing-gutter: var(--gutter);
+}
+
+@utility t-h1 {
+  font-family: var(--font-handlee);
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 1.1;
+  font-weight: 400;
+}
+@utility t-h2 {
+  font-family: var(--font-handlee);
+  font-size: clamp(38px, 4.4vw, 52px);
+  line-height: 1.15;
+  font-weight: 400;
+}
+@utility t-h3 {
+  font-family: var(--font-handlee);
+  font-size: clamp(30px, 3vw, 36px);
+  line-height: 1.2;
+  font-weight: 400;
+}
+@utility t-h4 {
+  font-family: var(--font-handlee);
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+@utility t-margin-note {
+  font-family: var(--font-handlee);
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+@utility t-sub {
+  font-family: var(--font-handlee);
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+@utility t-sub-sm {
+  font-family: var(--font-handlee);
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+@utility t-lead {
+  font-family: var(--font-antic-slab);
+  font-size: clamp(19px, 1.6vw, 22px);
+  line-height: 1.6;
+  font-weight: 400;
+}
+@utility t-body {
+  font-family: var(--font-antic-slab);
+  font-size: clamp(17px, 0.4vw + 15.5px, 18px);
+  line-height: 1.7;
+  font-weight: 400;
+}
+@utility t-body-sm {
+  font-family: var(--font-antic-slab);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+@utility t-caption {
+  font-family: var(--font-antic-slab);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+@utility t-eyebrow {
+  font-family: var(--font-antic-slab);
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+@utility t-label {
+  font-family: var(--font-antic-slab);
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+@utility t-meta {
+  font-family: var(--font-antic-slab);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+@utility t-numeral {
+  font-family: var(--font-antic-slab);
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+@utility t-body-hi {
+  font-family: var(--font-laila);
+  font-size: 18px;
+  line-height: 1.85;
+  font-weight: 400;
+}
+@utility t-display-xl {
+  font-family: var(--font-finesse);
+  font-size: clamp(72px, 12vw, 144px);
+  line-height: 0.95;
+  font-weight: 400;
+}
+@utility t-display-lg {
+  font-family: var(--font-finesse);
+  font-size: clamp(56px, 8.5vw, 104px);
+  line-height: 1;
+  font-weight: 400;
+}
+@utility t-quote {
+  font-family: var(--font-finesse);
+  font-size: clamp(36px, 3.6vw, 44px);
+  line-height: 1.18;
+  font-weight: 400;
+  font-style: italic;
+}
+@utility t-emphasis {
+  font-family: var(--font-finesse-oblique);
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: 400;
+}
+@utility t-numeral-year {
+  font-family: var(--font-finesse-flair);
+  font-size: 160px;
+  line-height: 0.9;
+  font-weight: 400;
+}
+@utility t-ornament {
+  font-family: var(--font-finesse-future);
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 400;
+}
+@utility t-write-en {
+  font-family: var(--font-caveat);
+  font-size: 36px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+@utility t-write-hi {
+  font-family: var(--font-tillana);
+  font-size: 32px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+@utility t-signature {
+  font-family: var(--font-parisienne);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 400;
+}
+@utility t-flourish {
+  font-family: var(--font-italianno);
+  font-size: 56px;
+  line-height: 1.1;
+  font-weight: 400;
+}

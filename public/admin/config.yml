@@ -1,0 +1,61 @@
+# Decap CMS for the club newsletter shelf (the Editorial Board page).
+# Who can sign in: GitHub users with write access to the repository below (add them as collaborators).
+backend:
+  name: github
+  repo: SMDRayhaan/cls-site
+  branch: main
+  commit_messages:
+    create: "Newsletter: add {{slug}}"
+    update: "Newsletter: update {{slug}}"
+    delete: "Newsletter: remove {{slug}}"
+    uploadMedia: "Newsletter: upload {{path}}"
+    deleteMedia: "Newsletter: delete {{path}}"
+
+# Local testing: run `npx decap-server` beside the dev server, then open /admin/index.html.
+local_backend: true
+
+site_url: /
+display_url: /editorial-board
+media_folder: public/uploads/newsletters
+public_folder: /uploads/newsletters
+
+collections:
+  - name: newsletters
+    label: Newsletter issues
+    label_singular: Issue
+    description: Each issue is one book on the Editorial Board shelf. Newest first, by date.
+    folder: content/newsletters
+    extension: json
+    format: json
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    summary: "{{issue}} · {{title}} ({{date}})"
+    sortable_fields: [date, title, issue]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: issue, label: Issue number, widget: string, hint: "Just the number, for example 12" }
+      - { name: date, label: Published, widget: datetime, format: "YYYY-MM-DD", date_format: "D MMMM YYYY", time_format: false }
+      - { name: cover, label: Cover image, widget: image, hint: "Portrait, 2:3 (for example 1024 × 1536). Wider images are cropped from the centre." }
+      - { name: summary, label: One-line summary, widget: string, hint: "Shown under the title on the shelf" }
+      - { name: intro, label: Introduction, widget: text, hint: "A few sentences shown when the book is opened" }
+      - name: colourway
+        label: Colourway
+        widget: select
+        default: night
+        hint: "The room and the book's cloth, from the club's colours"
+        options:
+          - { label: "Night (black room, burgundy book)", value: night }
+          - { label: "Burgundy (burgundy room, deep maroon book)", value: burgundy }
+          - { label: "Ivory (ivory room, navy book)", value: ivory }
+          - { label: "Deep maroon (deep maroon room, black book)", value: deep-maroon }
+      - { name: editors, label: Editors, widget: string, required: false }
+      - name: articles
+        label: Articles
+        label_singular: Article
+        widget: list
+        hint: "The first three headings are also printed on the book's pages"
+        fields:
+          - { name: heading, label: Heading, widget: string }
+          - { name: author, label: Author, widget: string, required: false }
+          - { name: body, label: Text, widget: text, hint: "Leave an empty line between paragraphs" }
+      - { name: pdf, label: PDF of the full issue, widget: file, required: false, media_library: { config: { multiple: false } } }
