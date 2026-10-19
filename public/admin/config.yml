@@ -35,7 +35,7 @@ collections:
       - { name: title, label: Title, widget: string }
       - { name: issue, label: Issue number, widget: string, hint: "Just the number, for example 12" }
       - { name: date, label: Published, widget: datetime, format: "YYYY-MM-DD", date_format: "D MMMM YYYY", time_format: false }
-      - { name: cover, label: Cover image, widget: image, hint: "Portrait, 2:3 (for example 1024 × 1536). Wider images are cropped from the centre." }
+      - { name: cover, label: Cover image, widget: image, hint: "The issue's first page, US Letter shape (8.5 × 11, for example 1020 × 1320). Taller images are trimmed from the bottom." }
       - { name: summary, label: One-line summary, widget: string, hint: "Shown under the title on the shelf" }
       - { name: intro, label: Introduction, widget: text, hint: "A few sentences shown when the book is opened" }
       - name: colourway
@@ -58,4 +58,11 @@ collections:
           - { name: heading, label: Heading, widget: string }
           - { name: author, label: Author, widget: string, required: false }
           - { name: body, label: Text, widget: text, hint: "Leave an empty line between paragraphs" }
+      - name: pages
+        label: Inside pages
+        label_singular: Page
+        widget: list
+        required: false
+        hint: "Up to 7 pages from inside the issue, in order (pages 2 to 8 of the PDF), about 768 px wide. They are printed on the book's pages when it opens; the last page links to the PDF."
+        field: { name: page, label: Page, widget: image }
       - { name: pdf, label: PDF of the full issue, widget: file, required: false, media_library: { config: { multiple: false } } }

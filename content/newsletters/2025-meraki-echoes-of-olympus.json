@@ -1,0 +1,24 @@
+{
+  "title": "Meraki: Echoes of Olympus",
+  "issue": "5",
+  "date": "",
+  "cover": "/uploads/newsletters/meraki-2025-summer-cover.jpg",
+  "summary": "Greek myths retold and reflected on: heroism, destiny and the women of Olympus.",
+  "intro": "Inspired by the timeless richness of Greek stories, this edition brings together thoughtful articles, retellings, and reflections that connect ancient myths with contemporary perspectives.",
+  "colourway": "night",
+  "editors": "Editor-in-Chief: Adnan Khan. Editors: Purani R",
+  "articles": [
+    { "heading": "From the Editor in Chief", "author": "Adnan Khan", "body": "It's been a long journey being part of CLS. Reflecting on it all, I noticed one common thread in this interconnectedness: conversations.\n\nThese experiences highlighted the transformative power of conversation.\n\nTo the future batches: I wish you the very best of luck. Please cherish and maintain the bond we've built within this club." },
+    { "heading": "From the President", "author": "Suchitra R", "body": "Meraki, a word that means to put something of your soul into your work, perfectly captures the spirit with which our members, writers, editors, and artists have poured their hearts into crafting this edition.\n\nMay Meraki remind you that when we create with our hearts, we leave behind a legacy that transcends words." }
+  ],
+  "pages": [
+    "/uploads/newsletters/meraki-2025-summer-p02.jpg",
+    "/uploads/newsletters/meraki-2025-summer-p03.jpg",
+    "/uploads/newsletters/meraki-2025-summer-p04.jpg",
+    "/uploads/newsletters/meraki-2025-summer-p05.jpg",
+    "/uploads/newsletters/meraki-2025-summer-p06.jpg",
+    "/uploads/newsletters/meraki-2025-summer-p07.jpg",
+    "/uploads/newsletters/meraki-2025-summer-p08.jpg"
+  ],
+  "pdf": "/uploads/newsletters/meraki-2025-summer.pdf"
+}

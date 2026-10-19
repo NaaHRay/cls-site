@@ -1,0 +1,24 @@
+{
+  "title": "Meraki Summer 2024: Cultural Diversity",
+  "issue": "4",
+  "date": "2024-07-01",
+  "cover": "/uploads/newsletters/meraki-2024-07-summer-cover.jpg",
+  "summary": "Stories, poems and art on the many cultures of India, from the editor's own travels across the country.",
+  "intro": "Diversity is not a challenge but a strength. Our differences should be celebrated as they make our society lively and resilient.",
+  "colourway": "night",
+  "editors": "Editor-in-Chief: Fathima Ismail. Editors: Suchitra R",
+  "articles": [
+    { "heading": "From the Editor in Chief", "author": "Fathima Ismail", "body": "As the Editor-in-Chief of the Crescent Literary Society, it is my honour and privilege to present this issue, which celebrates the theme of \"Cultural Diversity\".\n\nGrowing up as the daughter of an army officer, my childhood was a kaleidoscope of experiences across different corners of India.\n\nDespite the myriad differences in languages, customs, and traditions, the essence of humanity remains the same everywhere." },
+    { "heading": "From the President", "author": "Naqiya Tabassum", "body": "Joining the Crescent Literary Society was one of the best and most challenging decisions I've ever made. I met incredible people and grew with them.\n\nIt taught me that you can turn your mistakes into strengths and that it's okay to lean on your friends sometimes." }
+  ],
+  "pages": [
+    "/uploads/newsletters/meraki-2024-07-summer-p02.jpg",
+    "/uploads/newsletters/meraki-2024-07-summer-p03.jpg",
+    "/uploads/newsletters/meraki-2024-07-summer-p04.jpg",
+    "/uploads/newsletters/meraki-2024-07-summer-p05.jpg",
+    "/uploads/newsletters/meraki-2024-07-summer-p06.jpg",
+    "/uploads/newsletters/meraki-2024-07-summer-p07.jpg",
+    "/uploads/newsletters/meraki-2024-07-summer-p08.jpg"
+  ],
+  "pdf": "/uploads/newsletters/meraki-2024-07-summer.pdf"
+}

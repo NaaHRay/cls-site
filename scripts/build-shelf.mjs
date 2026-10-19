@@ -65,7 +65,18 @@ const monthYear = (d) => {
   const m = /^(\d{4})-(\d{2})/.exec(d || "");
   return m ? `${MONTHS[+m[2] - 1]} ${m[1]}` : "[date]";
 };
-// The original seven books' shapes and motifs, reused in turn so the shelf keeps its rhythm.
+// Every issue is the same size (the club's issues share one format). Variety comes from how each
+// book sits on the shelf (lean, turn, depth). The cover fills the whole face, which has the covers'
+// shape (US Letter, 8.5 x 11: the face is 0.007 smaller than the board each way).
+const BOOK_SIZE = { width: 1.084, height: 1.4, depth: 0.26 };
+const ALIGNMENTS = [
+  { lean: 0, turn: 0, depth: 0 },
+  { lean: 0.07, turn: -0.06, depth: -0.08 },
+  { lean: -0.045, turn: 0.05, depth: 0.05 },
+  { lean: 0.03, turn: 0.09, depth: -0.12 },
+  { lean: -0.075, turn: -0.04, depth: 0.02 },
+];
+// The original seven books' motifs, reused in turn so the shelf keeps its rhythm.
 const SHAPES = [
   { motifKey: "brackets", width: 1.02, height: 1.58, depth: 0.26, seed: 11 },
   { motifKey: "paths", width: 1.1, height: 1.46, depth: 0.29, seed: 22 },
@@ -109,12 +120,12 @@ const BOOKS = issues.map((n, i) => {
       paper: cw.room, paperDeep: cw.deep, paperPale: C("ivory"), ink: cw.ink, inkSoft: cw.inkSoft,
       wall: cw.room, shelf: cw.shelf, shelfDark: cw.shelfDark, light: C("ivory"), fill: mix("ivory", "leaf-bright", 0.35),
     },
-    width: SHAPES[i % 7].width,
-    height: SHAPES[i % 7].height,
-    depth: SHAPES[i % 7].depth,
+    ...BOOK_SIZE,
+    align: ALIGNMENTS[i % ALIGNMENTS.length],
     chapters: heads.slice(0, 3),
     seed: SHAPES[i % 7].seed,
     cover: n.cover || "",
+    pages: (n.pages ?? []).filter(Boolean).slice(0, 7), // the eighth page is the download page
     pdf: n.pdf || "",
     articles: articles.map((a) => ({ heading: a.heading, author: a.author || "", body: a.body || "" })),
   };
@@ -177,8 +188,7 @@ const DS_CSS = `
     .detail-title { font-size: clamp(48px, 6vw, 72px) !important; line-height: 1.1 !important; }
     .microcopy, .page-status span, .counter, .editorial-index span, .fallback-book span, .pointer-label span,
     .loading p, .text-button, .fallback__kicker, .issue { font-size: 12px !important; }
-    .selection { grid-template-columns: auto minmax(0, 1fr) !important; } /* the counter is wider at 12px */
-    :focus-visible { outline: 2px solid var(--ink) !important; outline-offset: 2px; }
+    .selection { grid-template-columns: auto minmax(0, 1fr) !important; } /* the counter is wider at 12px */    :focus-visible { outline: 2px solid var(--ink) !important; outline-offset: 2px; }
     .cls-reader {
       width: min(680px, 92vw); max-height: 86vh; padding: 32px; overflow: auto;
       border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink);
@@ -270,7 +280,7 @@ once("BOOKS", /\n    const BOOKS = \[[\s\S]*?\n    \];\n/, `\n    // CLS: the ne
 
 // covers: one image per issue (uploaded in the CMS) instead of the seven-cover atlas
 once("cover atlas data", /\n    const COVER_ATLAS_DATA = "data:[^\n]*/, "");
-once("cover atlas image", /    \/\/ Seven 2:3 cover artworks[\s\S]*?    let coverAtlasReady = false;\n/, `    // CLS: each issue's own cover, cropped to the book's 2:3 face from its centre.
+once("cover atlas image", /    \/\/ Seven 2:3 cover artworks[\s\S]*?    let coverAtlasReady = false;\n/, `    // CLS: each issue's own cover (uploaded in the CMS).
     const coverImages = BOOKS.map((book) => {
       if (!book.cover) return null;
       const image = new Image();
@@ -278,14 +288,132 @@ once("cover atlas image", /    \/\/ Seven 2:3 cover artworks[\s\S]*?    let cove
       image.src = book.cover;
       return image;
     });
-    const coverCrop = (image) => {
-      const w = image.naturalWidth, h = image.naturalHeight;
-      const cw = Math.min(w, (h * 2) / 3), ch = Math.min(h, (w * 3) / 2);
-      return [(w - cw) / 2, (h - ch) / 2, cw, ch];
-    };
+    // CLS: the cover fills the whole face. Letter covers match the face exactly; a cover of another
+    // shape is scaled to cover it and trimmed from the bottom, so the logo at the top always stays.
+    function drawCover(ctx, image, W, H) {
+      const s = Math.max(W / image.naturalWidth, H / image.naturalHeight);
+      const dw = image.naturalWidth * s, dh = image.naturalHeight * s;
+      ctx.drawImage(image, (W - dw) / 2, 0, dw, dh);
+    }
 `);
-once("cover texture", "      if (coverAtlasReady) {\n        const [sourceX, sourceY, sourceWidth, sourceHeight] = COVER_CROPS[BOOKS.indexOf(book)];\n        ctx.drawImage(\n          coverAtlasImage,",
-  "      const coverImage = coverImages[BOOKS.indexOf(book)];\n      if (coverImage?.naturalWidth) {\n        const [sourceX, sourceY, sourceWidth, sourceHeight] = coverCrop(coverImage);\n        ctx.drawImage(\n          coverImage,");
+// the cover canvas takes the face's own shape (the page drew a fixed 2:3 canvas onto it)
+once("cover canvas", "      canvasTexture.height = 1152;", "      canvasTexture.height = Math.round(768 * (book.height - 0.007) / (book.width - 0.007));");
+once("cover texture", /      if \(coverAtlasReady\) \{\n        const \[sourceX[\s\S]*?canvasTexture\.height\n        \);\n/,
+  "      const coverImage = coverImages[BOOKS.indexOf(book)];\n      if (coverImage?.naturalWidth) {\n        drawCover(ctx, coverImage, canvasTexture.width, canvasTexture.height);\n");
+// inside pages: the issue's real pages where the CMS has them, the page's own designs otherwise
+once("inside pages", "      return Array.from({ length: pageCount }, (_, pageIndex) => {\n", `      return Array.from({ length: pageCount }, (_, pageIndex) => {
+        if (pageIndex === pageCount - 1 && book.pdf) return makeDownloadPageTexture(book);
+        if (book.pages[pageIndex]) return makePrintedPageTexture(book, book.pages[pageIndex], pageIndex);
+`);
+// the last page invites the reader to the full issue; a tap on the last spread downloads the PDF
+once("download page", "    function makeInteriorPageTextures(book) {\n", `    function makeDownloadPageTexture(book) {
+      const canvas = document.createElement("canvas");
+      const W = (canvas.width = 768);
+      const H = (canvas.height = Math.round(768 * (book.height - 0.068) / (book.width - 0.074)));
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = book.color;
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = ctx.fillStyle = book.foil;
+      ctx.globalAlpha = 0.72;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(40, 40, W - 80, H - 80);
+      ctx.strokeRect(52, 52, W - 104, H - 104);
+      ctx.globalAlpha = 1;
+      // the crescent
+      ctx.beginPath();
+      ctx.arc(W / 2, 196, 30, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = book.color;
+      ctx.beginPath();
+      ctx.arc(W / 2 + 13, 188, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = book.foil;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = '400 18px "Antic Slab", Georgia, serif';
+      ctx.letterSpacing = "4px";
+      ctx.fillText("CLS NEWSLETTER  /  ISSUE " + book.roman, W / 2, 112);
+      ctx.letterSpacing = "0px";
+      ctx.font = "400 76px Handlee, cursive";
+      ctx.fillText("There's more", W / 2, 320);
+      ctx.fillText("inside.", W / 2, 400);
+      ctx.globalAlpha = 0.86;
+      ctx.font = '400 24px "Antic Slab", Georgia, serif';
+      drawWrappedCanvasText(ctx, "These are the first pages. The full issue, with every poem, story and photograph, is yours to keep.", W / 2, 500, 38, 38, 4);
+      ctx.globalAlpha = 1;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.roundRect(W / 2 - 230, 676, 460, 76, 38);
+      ctx.stroke();
+      ctx.font = '400 20px "Antic Slab", Georgia, serif';
+      ctx.letterSpacing = "3px";
+      ctx.fillText("DOWNLOAD THE FULL ISSUE  \\u2193", W / 2, 715);
+      ctx.letterSpacing = "0px";
+      ctx.globalAlpha = 0.7;
+      ctx.font = '400 18px "Antic Slab", Georgia, serif';
+      ctx.fillText("Tap this page, or choose Read this issue", W / 2, 796);
+      ctx.fillText("Crescent Literary Society  \\u00b7  With Inclusion comes Strength", W / 2, H - 104);
+      ctx.globalAlpha = 1;
+      const texture = configureCanvasTexture(new THREE.CanvasTexture(canvas), { anisotropy: 16 });
+      texture.name = \`\${book.id}-download-page\`;
+      return texture;
+    }
+
+    function clsDownload(href) {
+      const link = document.createElement("a");
+      link.href = href;
+      link.download = "";
+      link.click();
+    }
+
+    function makeInteriorPageTextures(book) {
+`);
+once("download tap", "        && releaseDistance <= 12;\n      if (pageDrag.committed) {", `        && releaseDistance <= 12;
+      const shouldDownload = event.type === "pointerup"
+        && dragKind === "page"
+        && !pageDrag.committed
+        && releaseDistance <= 12
+        && currentSpread === SPREAD_COUNT - 1
+        && activeBook?.data.pdf;
+      if (pageDrag.committed) {`);
+once("download tap action", "        cancelPageDrag();\n      }\n    }\n\n    function onWindowPagePointerEnd",
+  "        cancelPageDrag();\n        if (shouldDownload) clsDownload(activeBook.data.pdf);\n      }\n    }\n\n    function onWindowPagePointerEnd");
+once("printed page", "    function makeInteriorPageTextures(book) {\n", `    // CLS: one of the issue's real pages. Plain paper shows until the image arrives.
+    // ponytail: every book's pages load with the shelf (about 7 MB for five issues); load on open if issues pile up.
+    function makePrintedPageTexture(book, src, pageIndex) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 768;
+      canvas.height = Math.round(768 * (book.height - 0.068) / (book.width - 0.074));
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = book.palette.paperPale;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const texture = configureCanvasTexture(new THREE.CanvasTexture(canvas), { anisotropy: 16 });
+      texture.name = \`\${book.id}-interior-page-\${pageIndex + 1}\`;
+      const image = new Image();
+      image.decoding = "async";
+      image.onload = () => {
+        drawCover(ctx, image, canvas.width, canvas.height);
+        texture.needsUpdate = true;
+      };
+      image.src = src;
+      return texture;
+    }
+
+    function makeInteriorPageTextures(book) {
+`);
+// the front hinge groove would draw a dark line across a cover image
+once("front groove", "      frontGroove.position.set(0.038, 0, board * 0.655);\n", "      frontGroove.position.set(0.038, 0, board * 0.655);\n      frontGroove.visible = !book.cover;\n");
+// each book keeps its own lean, turn and depth on the shelf; the focused one straightens so it reads
+once("shelf alignment", "        const targetZ = 0.13 + focus * 0.24 - Math.min(distance, 2.8) * 0.07;\n        const targetRotationY = -offset * 0.105;\n        const targetRotationZ = -offset * 0.018;",
+  "        const rest = 1 - focus, align = BOOKS[index].align;\n        const targetZ = 0.13 + focus * 0.24 - Math.min(distance, 2.8) * 0.07 + align.depth * rest;\n        const targetRotationY = -offset * 0.105 + align.turn * rest;\n        const targetRotationZ = -offset * 0.018 + align.lean * rest;");
+// a cover image carries its own lettering: no foil title stamped over it
+once("foil over cover", "      ctx.fillText(`WORKING VOLUMES  /  ${pad(index)}`, 58, 70);",
+  "      if (book.cover) return configureCanvasTexture(new THREE.CanvasTexture(foilCanvas));\n      ctx.fillText(`WORKING VOLUMES  /  ${pad(index)}`, 58, 70);");
+// a dimmer room: the covers were washing out
+once("exposure", "toneMappingExposure = 0.9", "toneMappingExposure = 0.72");
+once("hemisphere", "new THREE.HemisphereLight(0xfff8e8, 0x5b4030, 0.56)", "new THREE.HemisphereLight(0xfff8e8, 0x5b4030, 0.42)");
+once("key light", "new THREE.DirectionalLight(0xffe8c2, 1.42)", "new THREE.DirectionalLight(0xffe8c2, 1.05)");
+once("softbox", "new THREE.RectAreaLight(0xffe8c2, 5.4, 4.8, 5.6)", "new THREE.RectAreaLight(0xffe8c2, 3.4, 4.8, 5.6)");
 once("cover decode", "      try {\n        await coverAtlasImage.decode();\n        coverAtlasReady = true;\n      } catch (error) {\n        coverAtlasReady = false;\n      }",
   "      await Promise.all(coverImages.map((image) => image?.decode().catch(() => {})));");
 once("font load", 'await document.fonts.load("600 82px Inter");',
@@ -298,6 +426,74 @@ every("cover running head", "`WORKING VOLUMES  /  ${book.roman}`", "`CLS NEWSLET
 once("foil running head", "`WORKING VOLUMES  /  ${pad(index)}`", "`CLS NEWSLETTER  /  ${book.roman}`");
 once("colophon", "Conceived as an original editorial study for Working Volumes.", "Crescent Literary Society, with Inclusion comes Strength.");
 once("specimen", "`SPECIMEN ${book.roman} / ${book.seed}  ·  IMAGINED EDITION`", "`ISSUE ${book.roman}  ·  ${book.discipline.toUpperCase()}`");
+// the back cover: sized to the face, the title wraps instead of running off the edge, and the
+// issue's one-line summary sits on it like a back-cover blurb
+once("back cover", /    function makeBackFoilTexture\(book\) \{[\s\S]*?\n    \}\n/, `    function makeBackFoilTexture(book) {
+      const foilCanvas = document.createElement("canvas");
+      const W = (foilCanvas.width = 768);
+      const H = (foilCanvas.height = Math.round(768 * (book.height - 0.007) / (book.width - 0.007)));
+      const ctx = foilCanvas.getContext("2d");
+      const left = 68, right = W - 68;
+      // Greedy word wrap by measured width.
+      const wrap = (text, width) => text.split(/\\s+/).reduce((lines, word) => {
+        const last = lines[lines.length - 1];
+        if (last && ctx.measureText(last + " " + word).width <= width) lines[lines.length - 1] = last + " " + word;
+        else lines.push(word);
+        return lines;
+      }, []);
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = "#ffffff";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+
+      ctx.font = '400 16px ${ANTIC}';
+      ctx.letterSpacing = "3px";
+      ctx.fillText("CLS NEWSLETTER  /  ISSUE " + book.roman, left, 82);
+      ctx.globalAlpha = 0.72;
+      ctx.fillRect(left, 106, 176, 2);
+      ctx.globalAlpha = 1;
+
+      const cx = W * 0.64, cy = H * 0.3;
+      ctx.lineWidth = 1.5;
+      for (let ring = 0; ring < 5; ring += 1) {
+        ctx.globalAlpha = 0.24 - ring * 0.032;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 56 + ring * 30, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx - 190, cy);
+      ctx.lineTo(cx + 190, cy);
+      ctx.moveTo(cx, cy - 190);
+      ctx.lineTo(cx, cy + 190);
+      ctx.stroke();
+
+      ctx.letterSpacing = "0px";
+      ctx.globalAlpha = 0.84;
+      ctx.font = '400 22px ${ANTIC}';
+      wrap(book.note, right - left).slice(0, 4).forEach((line, i) => ctx.fillText(line, left, H * 0.55 + i * 34));
+      ctx.globalAlpha = 1;
+
+      let size = 56, title;
+      do {
+        ctx.font = "400 " + size + 'px ${HANDLEE}';
+        title = wrap(book.title, right - left);
+      } while ((title.length > 2 || title.some((line) => ctx.measureText(line).width > right - left)) && (size -= 4) > 28);
+      const titleBottom = H - 170;
+      title.slice(0, 2).forEach((line, i, lines) => ctx.fillText(line, left, titleBottom - (lines.length - 1 - i) * size * 1.1));
+      ctx.font = '400 15px ${ANTIC}';
+      ctx.letterSpacing = "2.6px";
+      ctx.fillText(book.discipline.toUpperCase(), left + 2, titleBottom + 44);
+      ctx.globalAlpha = 0.68;
+      ctx.fillRect(left, titleBottom + 76, right - left, 1.5);
+      ctx.globalAlpha = 1;
+      ctx.textAlign = "right";
+      ctx.fillText("CRESCENT LITERARY SOCIETY", right, titleBottom + 114);
+
+      return configureCanvasTexture(new THREE.CanvasTexture(foilCanvas));
+    }
+`);
 
 // words in the running interface
 once("accent", 'rootStyle.setProperty("--accent", book.foil);', 'rootStyle.setProperty("--accent", book.accent);');

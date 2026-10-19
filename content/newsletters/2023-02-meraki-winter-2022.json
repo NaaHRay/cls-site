@@ -1,0 +1,23 @@
+{
+  "title": "Meraki Winter 2022: Among the Stars",
+  "issue": "3",
+  "date": "2023-02-01",
+  "cover": "/uploads/newsletters/meraki-2023-02-winter-cover.jpg",
+  "summary": "Poetry, fiction and non-fiction about the sky, the galaxies and the questions they raise.",
+  "intro": "From our deepest existential questions to reminiscence to crazy scientific theories, we have tried to cover it all.",
+  "colourway": "night",
+  "editors": "Editor-in-Chief: Saniya Mirza. Editors: Vikram Venkat, Cassandra Rifflin C.R.",
+  "articles": [
+    { "heading": "From the Editor in Chief", "author": "Saniya Mirza", "body": "It is with great pleasure that I introduce the Winter Edition of Meraki'22 to you all.\n\nI remember being young and going on many road trips with my family. I would sit near the window and stare at the sky; at the beautiful stars, and I would get lost in the vast expanse of this blanket of tiny dots.\n\nWe, the editorial board, have carefully curated a selection of entries from some of our brilliant writers, photographers and artists on campus." }
+  ],
+  "pages": [
+    "/uploads/newsletters/meraki-2023-02-winter-p02.jpg",
+    "/uploads/newsletters/meraki-2023-02-winter-p03.jpg",
+    "/uploads/newsletters/meraki-2023-02-winter-p04.jpg",
+    "/uploads/newsletters/meraki-2023-02-winter-p05.jpg",
+    "/uploads/newsletters/meraki-2023-02-winter-p06.jpg",
+    "/uploads/newsletters/meraki-2023-02-winter-p07.jpg",
+    "/uploads/newsletters/meraki-2023-02-winter-p08.jpg"
+  ],
+  "pdf": "/uploads/newsletters/meraki-2023-02-winter.pdf"
+}

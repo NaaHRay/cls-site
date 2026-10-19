@@ -1,0 +1,24 @@
+{
+  "title": "Meraki Winter 2021: The Sound of the '80s",
+  "issue": "1",
+  "date": "2022-02-01",
+  "cover": "/uploads/newsletters/meraki-2022-02-winter-cover.jpg",
+  "summary": "Music, technology and daily life in the 1980s, with the club's fiction, poetry and photography.",
+  "intro": "We have tried to cover everything, from music to technology, to day-to-day life in the '80s. There is too much that the 1980s have brought to life; we hope you will enjoy this historical theme with all its nostalgic value.",
+  "colourway": "night",
+  "editors": "Editor-in-Chief: Tasneem Juzer",
+  "articles": [
+    { "heading": "A note from the Editor", "author": "Tasneem Juzer", "body": "We are pleased to introduce the Winter Edition of Meraki 2021 to you. This time, we are here to present you with some highlights of the '80s culture and some chosen pieces that touched our hearts.\n\n2021 had been a ride full of ups and downs, so we decided to cap it off with a bang. The Greed Decade (i.e., the 1980s) was a one-of-a-kind decade and was a game-changer in every way.\n\nThe journey is just as essential as the destination. Try to embrace the climb." },
+    { "heading": "A note from the President", "author": "Sujan Ganesh", "body": "It is always twists and turns with life, ain't it? One moment you are here, and the next, you are there.\n\nTo my lovely juniors, I know adapting to college life is a bit exhaustive, but don't let it get the best of you. Make friends in and out of your department, join clubs and societies, and love yourself before loving anyone else.\n\nTake good care of your health." }
+  ],
+  "pages": [
+    "/uploads/newsletters/meraki-2022-02-winter-p02.jpg",
+    "/uploads/newsletters/meraki-2022-02-winter-p03.jpg",
+    "/uploads/newsletters/meraki-2022-02-winter-p04.jpg",
+    "/uploads/newsletters/meraki-2022-02-winter-p05.jpg",
+    "/uploads/newsletters/meraki-2022-02-winter-p06.jpg",
+    "/uploads/newsletters/meraki-2022-02-winter-p07.jpg",
+    "/uploads/newsletters/meraki-2022-02-winter-p08.jpg"
+  ],
+  "pdf": "/uploads/newsletters/meraki-2022-02-winter.pdf"
+}

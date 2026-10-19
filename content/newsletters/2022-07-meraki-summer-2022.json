@@ -1,0 +1,24 @@
+{
+  "title": "Meraki Summer 2022: Life in Colour",
+  "issue": "2",
+  "date": "2022-07-01",
+  "cover": "/uploads/newsletters/meraki-2022-07-summer-cover.jpg",
+  "summary": "Fiction, non-fiction, poetry and the cover story on electric vehicles, from the final-year editors' last edition.",
+  "intro": "This magazine's theme reminds us that life is colourful, and savouring moments of varying flavours is what makes it lively and exhilarating, be they sweet or sour.",
+  "colourway": "night",
+  "editors": "Editor-in-Chief: Tasneem Juzer",
+  "articles": [
+    { "heading": "A note from the Editor", "author": "Tasneem Juzer", "body": "It gives us immense pleasure to introduce to you the Summer Edition of Meraki 2022. This edition is very special and very close to my heart.\n\nThe memorable moments and life lessons we, the final years, learned will stay with us for the rest of our lives.\n\nAnd, as a millennial once said, nothing is impopsicle. Happy reading!" },
+    { "heading": "A note from the President", "author": "Sujan Ganesh", "body": "Summer is a season of goodbyes. Sharing the club's year with you has been the best part of this journey.\n\nI hope all of you eat healthily and stay healthy by avoiding everything that is injurious to your physical and mental health." }
+  ],
+  "pages": [
+    "/uploads/newsletters/meraki-2022-07-summer-p02.jpg",
+    "/uploads/newsletters/meraki-2022-07-summer-p03.jpg",
+    "/uploads/newsletters/meraki-2022-07-summer-p04.jpg",
+    "/uploads/newsletters/meraki-2022-07-summer-p05.jpg",
+    "/uploads/newsletters/meraki-2022-07-summer-p06.jpg",
+    "/uploads/newsletters/meraki-2022-07-summer-p07.jpg",
+    "/uploads/newsletters/meraki-2022-07-summer-p08.jpg"
+  ],
+  "pdf": "/uploads/newsletters/meraki-2022-07-summer.pdf"
+}
