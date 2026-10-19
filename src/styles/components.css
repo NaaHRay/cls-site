@@ -157,3 +157,13 @@
 .diary-phone-book .diary-sticker,
 .diary-phone-book .diary-spine-card,
 .diary-phone-book [data-beat="3"] { display: none; }
+
+/* The bar's Sable dock (ThreeUI) sits inline: its demo frame, noise and background are dropped, and the
+   capsule is centred over the bar. Its labels are longer than the demo's, so links size to their text. */
+.site-dock.animated-top-dock-component {
+  position: absolute; inset: 0; width: auto; height: auto; overflow: visible; container-type: normal;
+  display: flex; align-items: center; justify-content: center; background: none; pointer-events: none;
+}
+.site-dock.animated-top-dock-component::after { display: none; }
+.site-dock .animated-top-dock__nav { position: relative; top: auto; left: auto; transform: none; pointer-events: auto; }
+.site-dock .animated-top-dock__link { width: auto; padding: 0 12px; }
