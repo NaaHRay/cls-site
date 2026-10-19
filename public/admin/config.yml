@@ -2,7 +2,7 @@
 # Who can sign in: GitHub users with write access to the repository below (add them as collaborators).
 backend:
   name: github
-  repo: SMDRayhaan/cls-site
+  repo: NaaHRay/cls-site
   branch: main
   commit_messages:
     create: "Newsletter: add {{slug}}"
