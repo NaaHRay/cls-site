@@ -1,0 +1,46 @@
+[
+  {
+    "view": "desktop",
+    "theme": "dark",
+    "frames": 474,
+    "avgFps": 60,
+    "p95ms": 16.7,
+    "over20ms": 0,
+    "worstMs": 16.8,
+    "overlay": "N 185  pool 28  avif\ncam 229  v -9\nfps 60  worst 18.0ms\nvisible 26  repeats 0",
+    "errors": []
+  },
+  {
+    "view": "desktop",
+    "theme": "light",
+    "frames": 411,
+    "avgFps": 60,
+    "p95ms": 16.7,
+    "over20ms": 0,
+    "worstMs": 16.8,
+    "overlay": "N 185  pool 28  avif\ncam 120  v -9\nfps 60  worst 19.0ms\nvisible 25  repeats 0",
+    "errors": []
+  },
+  {
+    "view": "phone",
+    "theme": "dark",
+    "frames": 389,
+    "avgFps": 60,
+    "p95ms": 16.7,
+    "over20ms": 0,
+    "worstMs": 16.8,
+    "overlay": "N 185  pool 16  avif\ncam -2363  v -8\nfps 60  worst 39.0ms\nvisible 15  repeats 0",
+    "errors": []
+  },
+  {
+    "view": "phone",
+    "theme": "light",
+    "frames": 389,
+    "avgFps": 60,
+    "p95ms": 16.8,
+    "over20ms": 0,
+    "worstMs": 16.8,
+    "overlay": "N 185  pool 16  avif\ncam -2295  v -8\nfps 60  worst 29.0ms\nvisible 15  repeats 0",
+    "errors": []
+  }
+]

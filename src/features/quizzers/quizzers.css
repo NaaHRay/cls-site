@@ -1,0 +1,171 @@
+/* Quizzer's Circuit tunnel. The retro accents are placeholders until the palette is chosen; they are
+   scoped to .qz so the rest of the site stays on the design-system palette. */
+.qz {
+  --qz-ground: #0b0a09;
+  --qz-paper: #f3ede0;
+  --qz-blue: #2f5bff;
+  --qz-red: #ff3b1f;
+  --qz-yellow: #ffd23f;
+  --qz-orange: #ff8a1f;
+  --qz-lime: #b6f23a;
+}
+
+.qz-stage {
+  position: fixed;
+  inset: 0;
+  height: 100svh;
+  overflow: hidden;
+  overflow: clip; /* hidden can still be scrolled: Tab focus on an off-centre poster would shift the field */
+  background: var(--qz-ground);
+  touch-action: none;
+  overscroll-behavior: none;
+  perspective: 900px; /* TUNNEL.perspective */
+  user-select: none;
+}
+
+/* preserve-3d lets the browser sort posters by depth, so nearer ones always paint on top. The field's
+   own box sits at z = 0, in front of every poster, so it must not take pointers; visible posters
+   opt back in from the tick. */
+.qz-field {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.qz-poster {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: var(--qz-h, 60vh);
+  padding: 6px;
+  border: 0;
+  cursor: pointer;
+  background: var(--qz-paper);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.55);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.qz-lqip,
+.qz-poster img {
+  position: absolute;
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  object-fit: cover;
+  background-size: cover;
+}
+.qz-poster img {
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+/* Transform is written every frame, so hover and focus show as an outline, never a move. */
+.qz-poster:hover {
+  outline: 2px solid rgb(255 210 63 / 0.6);
+  outline-offset: 3px;
+}
+.qz-poster:focus-visible {
+  outline: 3px solid var(--qz-yellow);
+  outline-offset: 4px;
+}
+
+/* The Quizzers page follows the site theme; only the title and Back carry the retro accents. */
+.qz-back {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 6px 0;
+}
+.qz-back:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.qz-about-title {
+  margin: 0;
+  font-family: var(--font-handlee);
+  font-size: clamp(2.5rem, 9vw, 6rem);
+  line-height: 1;
+  /* Red reads on both the ivory and the black ground (yellow fails on ivory). */
+  color: var(--qz-red);
+  text-shadow: 0.05em 0.05em 0 var(--qz-yellow);
+}
+
+/* Edge darkening: depth without filters. */
+.qz-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgb(0 0 0 / 0.65) 100%);
+}
+
+/* Film grain: one noise tile, nudged a few times a second. */
+.qz-grain {
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: qz-grain 0.6s steps(5) infinite;
+}
+@keyframes qz-grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-7%, 4%); }
+  40% { transform: translate(5%, -6%); }
+  60% { transform: translate(-3%, 8%); }
+  80% { transform: translate(8%, 2%); }
+}
+
+/* Placeholder title look: Handlee has one weight, so the heaviness comes from a hard offset shadow. */
+.qz-title {
+  position: absolute;
+  top: calc(72px + 2vh);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0 16px;
+  text-align: center;
+  font-family: var(--font-handlee);
+  font-size: clamp(2.5rem, 11vw, 7.5rem);
+  line-height: 1;
+  color: var(--qz-yellow);
+  text-shadow: 0.06em 0.06em 0 var(--qz-red);
+  pointer-events: none;
+}
+
+.qz-pause {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 8px 12px;
+  border: 1.5px solid rgb(242 239 230 / 0.5);
+  background: rgb(11 10 9 / 0.6);
+  color: #f2efe6;
+  font-family: var(--font-antic-slab);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.qz-pause:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.qz-debug {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  margin: 0;
+  padding: 8px 10px;
+  background: rgb(0 0 0 / 0.75);
+  color: var(--qz-lime);
+  font: 12px/1.5 ui-monospace, monospace;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .qz-title { top: calc(56px + 2vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qz-grain { animation: none; }
+}

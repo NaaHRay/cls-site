@@ -23,6 +23,8 @@ const router = createBrowserRouter([
     children: [
       { path: "/", Component: Home },
       { path: "/sub-clubs", lazy: stub("Sub-clubs") },
+      { path: "/sub-clubs/quizzers-circuit", lazy: { Component: async () => (await import("@/features/quizzers/PosterTunnel")).default } },
+      { path: "/sub-clubs/quizzers-circuit/about", lazy: { Component: async () => (await import("@/features/quizzers/QuizzersAbout")).default } },
       { path: "/sub-clubs/:slug", lazy: stub() },
       { path: "/editorial-board", lazy: { Component: async () => (await import("@/pages/EditorialBoard")).default } },
       // Dev-only component review page.
